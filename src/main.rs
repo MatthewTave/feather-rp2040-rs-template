@@ -2,13 +2,11 @@
 #![no_main]
 
 /**** low-level imports *****/
-use panic_halt as _;
 use cortex_m::prelude::*;
 use cortex_m_rt::entry;
-use embedded_hal::{
-        digital::v2::{OutputPin},
-    };
+use embedded_hal::digital::v2::OutputPin;
 use embedded_time::rate::*;
+use panic_halt as _;
 
 /***** board-specific imports *****/
 use adafruit_feather_rp2040::{
@@ -36,8 +34,10 @@ fn main() -> ! {
         pac.PLL_USB,
         &mut pac.RESETS,
         &mut watchdog,
-    ).ok().unwrap();
-    
+    )
+    .ok()
+    .unwrap();
+
     // initialize the Single Cycle IO
     let sio = Sio::new(pac.SIO);
     // initialize the pins to default state
@@ -54,12 +54,11 @@ fn main() -> ! {
     /*
     Loop Section
     */
-    let mut delay: u32 = 500;   // loop delay in ms
+    let mut delay: u32 = 500; // loop delay in ms
     loop {
         led_pin.set_low();
         timer.delay_ms(delay as u32);
         led_pin.set_high();
         timer.delay_ms(delay as u32);
     }
-
 }
